@@ -7,6 +7,7 @@ import chatRoutes from "./routes/chat.route.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 
 // Needed for __dirname in ES Modules
@@ -35,15 +36,21 @@ app.use("/api/chat", chatRoutes);
 const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER;
 
 if (isProduction) {
-  const frontendPath = path.join(__dirname, "../frontend/dist");
-  app.use(express.static(frontendPath));
+  // Adjusted path to work on Render.com
+  const frontendPath = path.resolve(__dirname, "../../frontend/dist");
 
-  app.get("*", (req, res) => {
-    if (req.path.includes(".") || req.path.startsWith("/api")) {
-      return res.status(404).send("Not Found");
-    }
-    res.sendFile(path.join(frontendPath, "index.html"));
-  });
+  if (fs.existsSync(frontendPath)) {
+    app.use(express.static(frontendPath));
+
+    app.get("*", (req, res) => {
+      if (req.path.includes(".") || req.path.startsWith("/api")) {
+        return res.status(404).send("Not Found");
+      }
+      res.sendFile(path.join(frontendPath, "index.html"));
+    });
+  } else {
+    console.error("❌ Frontend build not found at:", frontendPath);
+  }
 }
 
 app.listen(PORT, () => {
