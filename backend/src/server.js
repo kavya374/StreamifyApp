@@ -31,9 +31,11 @@ const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER
 if (isProduction) {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
-  });
+  app.get("/*", (req, res) => {
+  const isAsset = req.path.includes('.') || req.path.startsWith('/api');
+  if (isAsset) return res.status(404).send("Not Found");
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 }
 
 
