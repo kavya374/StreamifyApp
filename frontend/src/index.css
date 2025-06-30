@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: Smooth theme transitions */
+:root {
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ✅ Use DaisyUI theme variables instead of hardcoded colors */
+.str-chat__channel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--b1), var(--b2));
+  height: 100%;
+}
+
+.str-chat__container {
+  max-width: 1200px;
+  width: 100%;
+  height: 80% !important;
+  margin: 0 auto !important;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  background-color: var(--b1);
+}
+
+.str-chat__list {
+  background-color: var(--b1);
+  padding: 12px;
+  color: var(--bc); /* base content */
+}
+
+.str-chat__list-notifications {
+  display: none;
+}
+
+.str-chat__message-input {
+  border-top: 1px solid var(--b2);
+  background-color: var(--b1);
+  color: var(--bc);
+}
+
+/* Optional debug/test block */
+.theme-test-block {
+  padding: 1rem;
+  margin: 1rem;
+  background-color: var(--p);
+  color: var(--pc);
+  border-radius: 0.5rem;
+}
