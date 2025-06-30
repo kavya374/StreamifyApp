@@ -33,11 +33,12 @@ app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
 // ✅ Serve frontend in production
-const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER;
+const isProduction =
+  process.env.NODE_ENV === "production" || process.env.RENDER;
 
 if (isProduction) {
   // Adjusted path to work on Render.com
-  const frontendPath = path.resolve(__dirname, "../dist");
+  const frontendPath = path.resolve(__dirname, "../../frontend/dist");
 
   if (fs.existsSync(frontendPath)) {
     app.use(express.static(frontendPath));
