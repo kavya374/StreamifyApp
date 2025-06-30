@@ -37,7 +37,7 @@ const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER
 
 if (isProduction) {
   // Adjusted path to work on Render.com
-  const frontendPath = path.resolve(__dirname, "../../../frontend/dist");
+  const frontendPath = path.resolve(__dirname, "../frontend/dist");
 
   if (fs.existsSync(frontendPath)) {
     app.use(express.static(frontendPath));
