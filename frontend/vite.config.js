@@ -2,7 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
 export default defineConfig({
-  base: "./", // this ensures asset paths work correctly
+  base: "./", // important for relative paths
   plugins: [react()],
   server: {
     port: 5173,
