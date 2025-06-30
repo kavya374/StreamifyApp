@@ -7,10 +7,14 @@ import chatRoutes from "./routes/chat.route.js";
 import { connectDB } from "./lib/db.js";
 import cors from "cors";
 import path from "path";
+import { fileURLToPath } from "url";
+
+// Needed for __dirname in ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 5002;
-const __dirname = path.resolve();
 
 app.use(
   cors({
@@ -22,19 +26,19 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// API routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chat", chatRoutes);
 
-// ✅ Serve frontend build in production or Render
+// ✅ Serve frontend in production
 const isProduction = process.env.NODE_ENV === "production" || process.env.RENDER;
 
 if (isProduction) {
   const frontendPath = path.join(__dirname, "../frontend/dist");
   app.use(express.static(frontendPath));
 
-  // Only serve index.html if the request does NOT include a file extension
-  app.get("/*", (req, res) => {
+  app.get("*", (req, res) => {
     if (req.path.includes(".") || req.path.startsWith("/api")) {
       return res.status(404).send("Not Found");
     }
@@ -43,6 +47,6 @@ if (isProduction) {
 }
 
 app.listen(PORT, () => {
-  console.log(`✅ Server is running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
   connectDB();
 });
